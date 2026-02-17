@@ -1,0 +1,9 @@
+/* App-level styles - mostly handled by MUI, minimal overrides here */
+
+.recharts-text {
+  font-family: 'Inter', sans-serif !important;
+}
+
+.recharts-tooltip-cursor {
+  fill: rgba(255, 255, 255, 0.03);
+}
