@@ -75,6 +75,8 @@ router.post("/", upload.single("file"), async (req, res) => {
       return res.status(400).json({ error: "File contains no data rows" });
     }
 
+    console.log(`📂 Processing file with ${data.length} rows...`);
+
     // Process all rows into arrays for batch insert
     const BATCH_SIZE = 50;
     let inserted = 0;
@@ -140,6 +142,11 @@ router.post("/", upload.single("file"), async (req, res) => {
             values,
           );
           inserted += placeholders.length;
+          if (inserted % 100 === 0 || inserted === data.length) {
+            console.log(
+              `✅ Progress: ${inserted}/${data.length} rows inserted`,
+            );
+          }
         } catch (batchErr) {
           // If batch fails, log error for those rows
           for (let k = 0; k < batch.length; k++) {

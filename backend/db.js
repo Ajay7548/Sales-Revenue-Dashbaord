@@ -29,6 +29,9 @@ export const initDB = async () => {
   try {
     await pool.query(createTable);
     console.log("✅ Database table 'sales' is ready");
+    // Simple health check
+    const res = await pool.query("SELECT NOW()");
+    console.log("✅ Database connection healthy:", res.rows[0].now);
   } catch (err) {
     console.error("❌ Error initializing database:", err.message);
   }
