@@ -1,8 +1,12 @@
-const express = require("express");
-const multer = require("multer");
-const XLSX = require("xlsx");
-const path = require("path");
-const { pool } = require("../db");
+import express from "express";
+import multer from "multer";
+import XLSX from "xlsx";
+import path from "path";
+import { fileURLToPath } from "url";
+import { pool } from "../db.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
@@ -157,4 +161,4 @@ router.post("/", upload.single("file"), async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

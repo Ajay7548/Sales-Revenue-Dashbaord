@@ -1,12 +1,14 @@
-const { Pool } = require("pg");
-require("dotenv").config();
+import pg from "pg";
+const { Pool } = pg;
+import dotenv from "dotenv";
+dotenv.config();
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 });
 
-const initDB = async () => {
+export const initDB = async () => {
   const createTable = `
     CREATE TABLE IF NOT EXISTS sales (
       id SERIAL PRIMARY KEY,
@@ -32,4 +34,4 @@ const initDB = async () => {
   }
 };
 
-module.exports = { pool, initDB };
+export { pool };
