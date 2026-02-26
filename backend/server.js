@@ -24,10 +24,14 @@ if (!fs.existsSync(uploadsDir)) {
 // Middleware
 app.use(
   cors({
-    origin: "https://sales-revenue-dashbaord.vercel.app",
+    origin: [
+      "https://sales-revenue-dashbaord.vercel.app",
+      "http://localhost:5173",
+    ],
   }),
 );
-app.use(express.json());
+// app.use(cors());
+app.use(express.json())
 
 // Routes
 app.use("/api/upload", uploadRoutes);
