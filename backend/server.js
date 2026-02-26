@@ -22,7 +22,11 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://sales-revenue-dashbaord.vercel.app",
+  }),
+);
 app.use(express.json());
 
 // Routes
