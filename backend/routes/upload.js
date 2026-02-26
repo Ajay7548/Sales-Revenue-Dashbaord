@@ -77,6 +77,10 @@ router.post("/", upload.single("file"), async (req, res) => {
 
     console.log(`📂 Processing file with ${data.length} rows...`);
 
+    // Clear old data before inserting new file data
+    await pool.query("DELETE FROM sales");
+    console.log("🗑️ Old data cleared");
+
     // Process all rows into arrays for batch insert
     const BATCH_SIZE = 50;
     let inserted = 0;
