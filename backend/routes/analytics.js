@@ -25,6 +25,14 @@ function buildFilters(query) {
     conditions.push(`region = $${idx++}`);
     params.push(query.region);
   }
+  if (query.minRating) {
+    conditions.push(`rating >= $${idx++}`);
+    params.push(parseFloat(query.minRating));
+  }
+  if (query.search) {
+    conditions.push(`product_name ILIKE $${idx++}`);
+    params.push(`%${query.search}%`);
+  }
 
   const where =
     conditions.length > 0 ? "WHERE " + conditions.join(" AND ") : "";
@@ -141,10 +149,12 @@ router.get("/categories", async (req, res) => {
   try {
     const { where, params } = buildFilters(req.query);
     const result = await pool.query(
-      `SELECT 
+      `SELECT
          category,
          SUM(discounted_price * quantity) AS total_revenue,
-         SUM(quantity)::int AS total_quantity
+         SUM(quantity)::int AS total_quantity,
+         COUNT(*)::int AS product_count,
+         AVG(rating) AS avg_rating
        FROM sales ${where}
        GROUP BY category
        ORDER BY total_revenue DESC`,
@@ -176,6 +186,112 @@ router.get("/filters", async (req, res) => {
     });
   } catch (err) {
     console.error("Filters error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/analytics/top-reviewed?limit=10
+router.get("/top-reviewed", async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 10;
+    const { where, params } = buildFilters(req.query);
+    params.push(limit);
+
+    const result = await pool.query(
+      `SELECT
+         product_name,
+         rating_count,
+         rating,
+         category
+       FROM sales ${where}
+       ORDER BY rating_count DESC
+       LIMIT $${params.length}`,
+      params,
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Top-reviewed error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/analytics/discount-distribution
+router.get("/discount-distribution", async (req, res) => {
+  try {
+    const { where, params } = buildFilters(req.query);
+    const result = await pool.query(
+      `SELECT
+         CASE
+           WHEN discount_percentage <= 0.10 THEN '0-10%'
+           WHEN discount_percentage <= 0.20 THEN '10-20%'
+           WHEN discount_percentage <= 0.30 THEN '20-30%'
+           WHEN discount_percentage <= 0.40 THEN '30-40%'
+           WHEN discount_percentage <= 0.50 THEN '40-50%'
+           WHEN discount_percentage <= 0.60 THEN '50-60%'
+           WHEN discount_percentage <= 0.70 THEN '60-70%'
+           WHEN discount_percentage <= 0.80 THEN '70-80%'
+           WHEN discount_percentage <= 0.90 THEN '80-90%'
+           ELSE '90-100%'
+         END AS bucket,
+         COUNT(*)::int AS count
+       FROM sales ${where}
+       GROUP BY bucket
+       ORDER BY MIN(discount_percentage)`,
+      params,
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Discount distribution error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/analytics/table?page=1&limit=25&sortBy=sale_date&sortOrder=desc
+router.get("/table", async (req, res) => {
+  try {
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.min(100, Math.max(1, parseInt(req.query.limit) || 25));
+    const offset = (page - 1) * limit;
+
+    const allowedSortColumns = [
+      "product_name", "category", "discounted_price", "actual_price",
+      "discount_percentage", "rating", "rating_count", "quantity",
+      "region", "sale_date",
+    ];
+    const sortBy = allowedSortColumns.includes(req.query.sortBy)
+      ? req.query.sortBy
+      : "sale_date";
+    const sortOrder = req.query.sortOrder === "asc" ? "ASC" : "DESC";
+
+    const { where, params } = buildFilters(req.query);
+
+    const countResult = await pool.query(
+      `SELECT COUNT(*)::int AS total FROM sales ${where}`,
+      params,
+    );
+    const total = countResult.rows[0].total;
+
+    const dataParams = [...params, limit, offset];
+    const result = await pool.query(
+      `SELECT
+         id, product_id, product_name, category,
+         discounted_price, actual_price, discount_percentage,
+         rating, rating_count, quantity, region, sale_date
+       FROM sales ${where}
+       ORDER BY ${sortBy} ${sortOrder}
+       LIMIT $${dataParams.length - 1} OFFSET $${dataParams.length}`,
+      dataParams,
+    );
+
+    res.json({
+      data: result.rows,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+      limit,
+    });
+  } catch (err) {
+    console.error("Table error:", err);
     res.status(500).json({ error: err.message });
   }
 });

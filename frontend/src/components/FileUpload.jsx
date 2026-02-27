@@ -120,7 +120,7 @@ export default function FileUpload() {
         <Typography variant="h6" fontWeight={600} gutterBottom color="#fff">
           {selectedFile ? selectedFile.name : "Drop CSV/Excel file here"}
         </Typography>
-        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.45)" }}>
+        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.65)" }}>
           {selectedFile
             ? `${(selectedFile.size / 1024).toFixed(1)} KB — Click upload to import`
             : "or click to browse · supports .xlsx, .xls, .csv"}
@@ -154,7 +154,7 @@ export default function FileUpload() {
               sx={{
                 borderRadius: 2.5,
                 textTransform: "none",
-                borderColor: "rgba(255,255,255,0.2)",
+                borderColor: "rgba(255,255,255,0.25)",
                 color: "rgba(255,255,255,0.7)",
                 "&:hover": {
                   borderColor: "rgba(255,255,255,0.4)",

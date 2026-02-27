@@ -47,6 +47,27 @@ export const analyticsApi = createApi({
       query: () => "/analytics/filters",
       providesTags: ["Analytics"],
     }),
+    getTopReviewed: builder.query({
+      query: (filters) => ({
+        url: "/analytics/top-reviewed",
+        params: { limit: 10, ...filters },
+      }),
+      providesTags: ["Analytics"],
+    }),
+    getDiscountDistribution: builder.query({
+      query: (filters) => ({
+        url: "/analytics/discount-distribution",
+        params: filters,
+      }),
+      providesTags: ["Analytics"],
+    }),
+    getTableData: builder.query({
+      query: (params) => ({
+        url: "/analytics/table",
+        params,
+      }),
+      providesTags: ["Analytics"],
+    }),
     uploadFile: builder.mutation({
       query: (formData) => ({
         url: "/upload",
@@ -65,5 +86,8 @@ export const {
   useGetRegionsQuery,
   useGetCategoriesQuery,
   useGetFiltersQuery,
+  useGetTopReviewedQuery,
+  useGetDiscountDistributionQuery,
+  useGetTableDataQuery,
   useUploadFileMutation,
 } = analyticsApi;

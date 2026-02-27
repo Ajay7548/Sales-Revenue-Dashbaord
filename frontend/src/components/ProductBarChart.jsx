@@ -40,6 +40,9 @@ export default function ProductBarChart({ data, isLoading }) {
         bgcolor: "rgba(255,255,255,0.04)",
         border: "1px solid rgba(255,255,255,0.08)",
         backdropFilter: "blur(12px)",
+        position: "relative",
+        zIndex: 1,
+        "&:hover": { zIndex: 10 },
         height: "100%", // Fill container height
         display: "flex",
         flexDirection: "column",
@@ -58,27 +61,30 @@ export default function ProductBarChart({ data, isLoading }) {
         <Box sx={{ flexGrow: 1, minHeight: 400 }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 20, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" horizontal={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" horizontal={false} />
               <XAxis
                 type="number"
                 tickFormatter={formatRevenue}
-                stroke="rgba(255,255,255,0.4)"
-                tick={{ fill: "rgba(255,255,255,0.6)", fontSize: 11 }}
+                stroke="rgba(255,255,255,0.5)"
+                tick={{ fill: "rgba(255,255,255,0.75)", fontSize: 11 }}
               />
               <YAxis
                 type="category"
                 dataKey="name"
                 width={180} // Increased width for product names
-                stroke="rgba(255,255,255,0.4)"
-                tick={{ fill: "rgba(255,255,255,0.6)", fontSize: 12, fontWeight: 500 }}
+                stroke="rgba(255,255,255,0.5)"
+                tick={{ fill: "rgba(255,255,255,0.75)", fontSize: 12, fontWeight: 500 }}
               />
               <Tooltip
+                wrapperStyle={{ zIndex: 1000 }}
                 contentStyle={{
                   backgroundColor: "#1e1e2f",
                   border: "1px solid rgba(255,255,255,0.15)",
                   borderRadius: 8,
                   color: "#fff",
                 }}
+                labelStyle={{ color: "#fff" }}
+                itemStyle={{ color: "#fff" }}
                 formatter={(val) => ["₹" + Number(val).toLocaleString("en-IN"), "Revenue"]}
                 labelFormatter={(_, payload) => payload?.[0]?.payload?.fullName || ""}
               />

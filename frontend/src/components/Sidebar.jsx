@@ -11,16 +11,18 @@ import {
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
 import InsightsIcon from "@mui/icons-material/Insights";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
+import TableChartIcon from "@mui/icons-material/TableChart";
 
 const DRAWER_WIDTH = 260;
 
 const navItems = [
   { label: "Dashboard", icon: <DashboardIcon />, id: "dashboard" },
   { label: "Upload Data", icon: <UploadFileIcon />, id: "upload" },
-  { label: "Revenue Trends", icon: <ShowChartIcon />, id: "trends" },
   { label: "Product Sales", icon: <BarChartIcon />, id: "products" },
+  { label: "Analytics", icon: <AnalyticsIcon />, id: "analytics" },
+  { label: "Data Explorer", icon: <TableChartIcon />, id: "explorer" },
 ];
 
 export default function Sidebar({ activeSection, onNavigate, isMobile }) {
@@ -98,7 +100,7 @@ export default function Sidebar({ activeSection, onNavigate, isMobile }) {
             </Typography>
             <Typography
               variant="caption"
-              sx={{ color: "rgba(255,255,255,0.35)", fontSize: 11, letterSpacing: 0.5 }}
+              sx={{ color: "rgba(255,255,255,0.55)", fontSize: 11, letterSpacing: 0.5 }}
             >
               Revenue Dashboard
             </Typography>
@@ -117,7 +119,7 @@ export default function Sidebar({ activeSection, onNavigate, isMobile }) {
             pt: 2.5,
             pb: 1,
             display: "block",
-            color: "rgba(255,255,255,0.25)",
+            color: "rgba(255,255,255,0.5)",
             fontSize: 10,
             fontWeight: 600,
             letterSpacing: 1.5,
@@ -164,13 +166,13 @@ export default function Sidebar({ activeSection, onNavigate, isMobile }) {
               },
               "&:not(.Mui-selected):hover": {
                 bgcolor: "rgba(255,255,255,0.04)",
-                "& .MuiListItemIcon-root": { color: "rgba(255,255,255,0.7)" },
+                "& .MuiListItemIcon-root": { color: "rgba(255,255,255,0.9)" },
               },
             }}
           >
             <ListItemIcon
               sx={{
-                color: "rgba(255,255,255,0.4)",
+                color: "rgba(255,255,255,0.8)",
                 minWidth: isMobile ? 0 : 38,
                 transition: "color 0.2s",
                 justifyContent: "center",
@@ -204,10 +206,10 @@ export default function Sidebar({ activeSection, onNavigate, isMobile }) {
             border: "1px solid rgba(102,126,234,0.12)",
           }}
         >
-          <Typography variant="caption" fontWeight={600} color="rgba(255,255,255,0.6)" display="block" gutterBottom>
+          <Typography variant="caption" fontWeight={600} color="rgba(255,255,255,0.7)" display="block" gutterBottom>
             💡 Quick Tip
           </Typography>
-          <Typography variant="caption" color="rgba(255,255,255,0.35)" sx={{ lineHeight: 1.5 }}>
+          <Typography variant="caption" color="rgba(255,255,255,0.55)" sx={{ lineHeight: 1.5 }}>
             Upload your Excel/CSV file to see interactive analytics and charts.
           </Typography>
         </Box>

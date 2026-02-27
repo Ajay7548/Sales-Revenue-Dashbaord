@@ -57,24 +57,27 @@ export default function RevenueLineChart({ data, isLoading }) {
                 <stop offset="95%" stopColor="#667eea" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
             <XAxis
               dataKey="date"
-              stroke="rgba(255,255,255,0.4)"
-              tick={{ fill: "rgba(255,255,255,0.6)", fontSize: 12 }}
+              stroke="rgba(255,255,255,0.5)"
+              tick={{ fill: "rgba(255,255,255,0.75)", fontSize: 12 }}
             />
             <YAxis
               tickFormatter={formatRevenue}
-              stroke="rgba(255,255,255,0.4)"
-              tick={{ fill: "rgba(255,255,255,0.6)", fontSize: 12 }}
+              stroke="rgba(255,255,255,0.5)"
+              tick={{ fill: "rgba(255,255,255,0.75)", fontSize: 12 }}
             />
             <Tooltip
+              wrapperStyle={{ zIndex: 1000 }}
               contentStyle={{
                 backgroundColor: "#1e1e2f",
                 border: "1px solid rgba(255,255,255,0.15)",
                 borderRadius: 8,
                 color: "#fff",
               }}
+              labelStyle={{ color: "#fff" }}
+              itemStyle={{ color: "#fff" }}
               formatter={(val) => ["₹" + Number(val).toLocaleString("en-IN"), "Revenue"]}
             />
             <Area

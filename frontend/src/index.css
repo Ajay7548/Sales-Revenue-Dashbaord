@@ -28,6 +28,10 @@ body {
   overflow-x: hidden;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(0.8);
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }

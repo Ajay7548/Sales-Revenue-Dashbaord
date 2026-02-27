@@ -29,6 +29,9 @@ export default function RegionPieChart({ data, isLoading }) {
         bgcolor: "rgba(255,255,255,0.04)",
         border: "1px solid rgba(255,255,255,0.08)",
         backdropFilter: "blur(12px)",
+        position: "relative",
+        zIndex: 1,
+        "&:hover": { zIndex: 10 },
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -56,7 +59,7 @@ export default function RegionPieChart({ data, isLoading }) {
                 paddingAngle={4}
                 dataKey="value"
                 label={renderLabel}
-                labelLine={{ stroke: "rgba(255,255,255,0.4)" }}
+                labelLine={{ stroke: "rgba(255,255,255,0.55)" }}
               >
                 {chartData.map((_, i) => (
                   <Cell
@@ -67,12 +70,15 @@ export default function RegionPieChart({ data, isLoading }) {
                 ))}
               </Pie>
               <Tooltip
+                wrapperStyle={{ zIndex: 1000 }}
                 contentStyle={{
                   backgroundColor: "#1e1e2f",
                   border: "1px solid rgba(255,255,255,0.15)",
                   borderRadius: 8,
                   color: "#fff",
                 }}
+                labelStyle={{ color: "#fff" }}
+                itemStyle={{ color: "#fff" }}
                 formatter={(val) => ["₹" + Number(val).toLocaleString("en-IN"), "Revenue"]}
               />
               <Legend verticalAlign="bottom" height={36} iconType="circle" />
