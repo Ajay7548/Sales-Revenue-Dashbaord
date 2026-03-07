@@ -109,6 +109,13 @@ _The application will open at http://localhost:5173_
 ## 📸 Screenshots
 
 _(You can add screenshots of your dashboard here to showcase the UI)_
+DashBoard: - <img width="950" height="432" alt="dsahboard" src="https://github.com/user-attachments/assets/c2e5ce26-a82d-4d0e-a12c-8cfe2a734181" />
+Upload Excel File : <img width="954" height="433" alt="uplaod" src="https://github.com/user-attachments/assets/9f9a6be2-aadb-4b37-a4be-fc53247add62" />
+Product Sales :- <img width="942" height="435" alt="sales" src="https://github.com/user-attachments/assets/c75ff56b-e22a-4e2d-a3d1-49ea052328f3" />
+Data Table : <img width="958" height="538" alt="pagination" src="https://github.com/user-attachments/assets/216b3d7f-9354-4edc-acdb-f88e74b0e7f2" />
+
+
+
 
 ## 📄 License
 
